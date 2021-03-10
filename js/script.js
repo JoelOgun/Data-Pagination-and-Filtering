@@ -81,8 +81,8 @@ function addPagination(list) {
       let firstElement = document.querySelector(".active");
       firstElement.className = "";
       e.target.className = "active";
-      let text = e.textContent;
-      showPage(list, text);
+      let page = e.target.textContent;
+      showPage(list, page);
     }
   });
   // if the click target is a button:
