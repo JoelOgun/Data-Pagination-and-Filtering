@@ -62,9 +62,8 @@ function addPagination(list) {
   // set the innerHTML property of the variable you just created to an empty string
   linkList.innerHTML = " ";
   // loop over the number of pages needed
-  for (let i = 1; i <= numOfPages.length; i++) {
+  for (let i = 1; i <= numOfPages; i++) {
     // create the elements needed to display the pagination button
-    let page = numOfPages[i];
     let button = `<li>
   <button type="button">${i}</button>
 </li>`;
@@ -77,6 +76,15 @@ function addPagination(list) {
   }
 
   // create an event listener on the `link-list` element
+  linkList.addEventListener("click", function (e) {
+    if (e.target.tagName == "BUTTON") {
+      let firstElement = document.querySelector(".active");
+      firstElement.className = "";
+      e.target.className = "active";
+      let text = e.textContent;
+      showPage(list, text);
+    }
+  });
   // if the click target is a button:
   // remove the "active" class from the previous button
   // add the active class to the clicked button
