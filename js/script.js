@@ -8,6 +8,15 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
+const input = document.getElementById("search");
+/* 
+Display the search form as the last child in the header . 
+*/
+let header = document.querySelector(".header");
+let searchForm = `<label for="search" class = "student-search" > <span>Search by name</span>
+<input id="search" placeholder="Search by name..."> <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+</label>`;
+header.insertAdjacentHTML("beforeend", searchForm);
 
 /*
 Create the `showPage` function
@@ -94,3 +103,29 @@ function addPagination(list) {
 // Call functions
 addPagination(data);
 console.log(addPagination);
+
+/* 
+Create the `searchStudent` function  with the help w3 school Search Menu 
+This function will append HTML for a search bar to display result of students 
+*/
+function searchStudent() {
+  filter = input.value.toUpperCase();
+  ul = document.querySelector(".student-list");
+  li = ul.getElementByTagName("li");
+  const studentInputMatches = [];
+  // Loop through all list items
+  for (i = 0; i < li.length; i++) {
+    let studentInputMatch = li[i];
+    if (
+      studentInputMatch.name.first.toUpperCase().indexOf(filter) > -1 ||
+      studentInputMatch.name.last.toUpperCase().indexOf(filter) > -1
+    ) {
+      studentInputMatches.push(studentInputMatch);
+    }
+  }
+}
+
+// Callback  function on search input field
+input.addEventListener("keyup", () => {
+  searchStudent();
+});
