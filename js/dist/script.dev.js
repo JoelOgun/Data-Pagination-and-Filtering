@@ -10,14 +10,16 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
-var input = document.getElementById("search");
+
+/* 
 /* 
 Display the search form as the last child in the header . 
 */
-
 var header = document.querySelector(".header");
-var searchForm = "<label for=\"search\" class = \"student-search\" > <span>Search by name</span>\n<input id=\"search\" placeholder=\"Search by name...\"> <button type=\"button\"><img src=\"img/icn-search.svg\" alt=\"Search icon\"></button>\n</label>";
+var searchForm = "<label for=\"search\" class = \"student-search\" > <span>Search by name</span>\n<input id=\"search\" placeholder=\"Search by name...\"> <button type=\"submit\"><img src=\"img/icn-search.svg\" alt=\"Search icon\"></button>\n</label>";
 header.insertAdjacentHTML("beforeend", searchForm);
+var input = document.getElementById("search");
+var searchButton = document.querySelector("button[type = submit]");
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
@@ -73,6 +75,10 @@ function addPagination(list) {
     var currentPageActive = document.querySelector('button[type="button"]');
     currentPageActive.className = "active";
   } // create an event listener on the `link-list` element
+  // if the click target is a button:
+  // remove the "active" class from the previous button
+  // add the active class to the clicked button
+  // call the showPage function passing the `list` parameter and page to display as arguments
 
 
   linkList.addEventListener("click", function (e) {
@@ -83,10 +89,7 @@ function addPagination(list) {
       var page = e.target.textContent;
       showPage(list, page);
     }
-  }); // if the click target is a button:
-  // remove the "active" class from the previous button
-  // add the active class to the clicked button
-  // call the showPage function passing the `list` parameter and page to display as arguments
+  });
 } // Call functions
 
 
@@ -97,22 +100,27 @@ Create the `searchStudent` function  with the help w3 school Search Menu
 This function will append HTML for a search bar to display result of students 
 */
 
-function searchStudent() {
-  filter = input.value.toUpperCase();
-  ul = document.querySelector(".student-list");
-  li = ul.getElementByTagName("li");
-  var studentInputMatches = []; // Loop through all list items
+function searchStudent(searchInput, studentItem) {
+  console.log(searchInput);
+  console.log(studentItem);
+  var studentInputMatches = [];
 
-  for (i = 0; i < li.length; i++) {
-    var studentInputMatch = li[i];
-
-    if (studentInputMatch.name.first.toUpperCase().indexOf(filter) > -1 || studentInputMatch.name.last.toUpperCase().indexOf(filter) > -1) {
-      studentInputMatches.push(studentInputMatch);
+  for (i = 0; i < studentItem.length; i++) {
+    if (searchInput.value.length !== 0 && studentItem[i].textContent.toLowerCase() === searchInput.value.toLowerCase()) {
+      studentInputMatches.push(searchInput);
     }
-  }
-} // Callback  function on search input field
+  } //  showPage(searchStudent());
 
+}
+
+searchStudent(input, data);
+searchButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  searchStudent(input, data);
+  console.log("Submit button is functional!");
+}); // Callback  function on search input field
 
 input.addEventListener("keyup", function () {
-  searchStudent();
+  searchStudent(input, data);
+  console.log("Keyup event on the Search input is functional!");
 });
